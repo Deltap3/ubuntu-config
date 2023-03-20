@@ -1,0 +1,7 @@
+plugins=(
+  git
+  terraform
+  npm
+  node
+  yarn
+)
