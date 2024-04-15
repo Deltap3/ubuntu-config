@@ -1,5 +1,4 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# If you come from bash you might have to change your $PATH. export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 alias tfwdev="tf workspace select dev"
 alias tfwprod="tf workspace select prod"
@@ -12,15 +11,30 @@ alias tfaprod="tfwprod && tfa -var-file=prod.tfvars"
 alias gclbranch="git branch -l --no-color | grep -v 'develop|main' | xargs git branch -D"
 
 alias gwax="ga . && gcn! && ggpush -f"
-alias gupdate="gco main && ggpull && gco develop && ggpull && gfa"
+alias gwaxn="ga . && gcn! -n && ggf"
+alias gupdate="gco main && ggpull && gco develop ; ggpull && gfa"
+alias gbump="gcb chore/bump-deps && ga . && gcmsg 'chore: bump deps' -n && ggpush && cheh && ghmerge"
+alias nonode="find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"
+
+alias mcheh="gh pr create --base main --fill --reviewer waxo,maaelle"
+alias dabb="dart run build_runner build"
+
+alias goprod="gupdate && gco develop && gcb deploy/main && grb main && ggpush && mcheh"
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 export PATH="$PATH:$(yarn global bin)"
-export ALL_CHEH=(alkabann waxo)
 
 alias ghmerge="gh pr merge --rebase --auto --delete-branch"
 
-alias cheh="gh pr create --fill --reviewer alkabann,waxo"
+alias cheh="gh pr create --fill --reviewer waxo,maaelle"
+
+ghib() {
+ gh issue develop $1 --checkout --name $2/$1-$3
+}
+
+ghib240() {
+ gh issue develop  $1 --base develop-2-4-0 --checkout --name $2/$1-$3
+}
 
 gtd() {
    git push origin --delete $1
@@ -65,7 +79,7 @@ ZSH_THEME="deltap3"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # You can also set it to another string to have that shown instead of the default red dots.
